@@ -6,8 +6,8 @@ import me.tr.trformatter.phases.analysis.lexer.tokens.params.ParamToken;
 import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawFunction;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawFunctions;
-import me.tr.trformatter.strings.CString;
-import me.tr.trformatter.utility.Validator;
+import me.tr.trformatter.strings.Text;
+import me.tr.utilities.validators.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +32,8 @@ public class FunctionsLexer extends GenericLexer<IndexedRawFunction> {
 
     @Override
     public FunctionToken tokenize(IndexedRawFunction rawComponent) {
-        if (Validator.isNull(rawComponent)) {
-            new NullPointerException("The provided raw function is null.").printStackTrace(System.err);
-            return null;
-        }
-
-        NameToken name = getName(new CString(rawComponent.component()));
+        Preconditions.parameterNotNull(rawComponent, "rawComponent");
+        NameToken name = getName(new Text(rawComponent.component()));
         List<ParamToken> params = getParams(rawComponent);
 
         return new FunctionToken(name, params);

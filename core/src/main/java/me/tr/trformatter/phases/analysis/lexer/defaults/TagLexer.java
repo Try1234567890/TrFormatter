@@ -6,8 +6,8 @@ import me.tr.trformatter.phases.analysis.lexer.tokens.components.TagToken;
 import me.tr.trformatter.phases.analysis.lexer.tokens.params.ParamToken;
 import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawTag;
-import me.tr.trformatter.strings.CString;
-import me.tr.trformatter.utility.Validator;
+import me.tr.trformatter.strings.Text;
+import me.tr.utilities.validators.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,13 +32,10 @@ public class TagLexer extends GenericLexer<IndexedRawTag> {
 
     @Override
     public TagToken tokenize(IndexedRawTag rawComponent) {
+        Preconditions.parameterNotNull(rawComponent, "rawComponent");
 
-        if (Validator.isNull(rawComponent)) {
-            new NullPointerException("The provided raw tag is null.").printStackTrace(System.err);
-            return null;
-        }
 
-        NameToken name = getName(new CString(rawComponent.component()));
+        NameToken name = getName(new Text(rawComponent.component()));
         List<ParamToken> params = getParams(rawComponent);
 
         if (rawComponent.hasFunctions()) {

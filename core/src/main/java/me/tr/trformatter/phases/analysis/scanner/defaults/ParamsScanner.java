@@ -3,8 +3,8 @@ package me.tr.trformatter.phases.analysis.scanner.defaults;
 import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawParam;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawParams;
-import me.tr.trformatter.strings.CString;
-import me.tr.trformatter.utility.Validator;
+import me.tr.trformatter.strings.Text;
+import me.tr.utilities.validators.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -241,24 +241,24 @@ public class ParamsScanner extends GenericScanner {
 
     @Override
     public IndexedRawParams create(String text, int start, int end) {
-        if (Validator.isNull(text)) {
+        if (ValidationUtils.isNull(text)) {
             return new IndexedRawParams(new ArrayList<>(), start, end);
         }
 
-        CString cText = new CString(text);
+        Text cText = new Text(text);
         String split = characters().getSplitParams();
 
         List<IndexedRawParam> indexedRawParams = new ArrayList<>();
         int from;
         int nextDelim = -1;
         while ((nextDelim = cText.indexOfIgnoringStrings(split, from = nextDelim + 1)) != -1) {
-            CString paramStr = new CString(cText.substring(from, nextDelim));
+            Text paramStr = new Text(cText.substring(from, nextDelim));
             IndexedRawParam param = create(paramStr, (start + from), (start + paramStr.length()));
             indexedRawParams.add(param);
         }
 
         if (from <= cText.length()) {
-            CString paramStr = new CString(cText.substring(from));
+            Text paramStr = new Text(cText.substring(from));
             IndexedRawParam param = create(paramStr, (start + from), (start + paramStr.length()));
             indexedRawParams.add(param);
         }
@@ -266,7 +266,7 @@ public class ParamsScanner extends GenericScanner {
         return new IndexedRawParams(indexedRawParams, start, end);
     }
 
-    private IndexedRawParam create(CString paramStr, int start, int end) {
+    private IndexedRawParam create(Text paramStr, int start, int end) {
         String associate = characters().getAssociateParams();
         int associateIndex = paramStr.indexOfIgnoringStrings(associate);
 

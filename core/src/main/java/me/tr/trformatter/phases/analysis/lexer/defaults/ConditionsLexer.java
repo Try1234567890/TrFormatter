@@ -8,7 +8,7 @@ import me.tr.trformatter.phases.analysis.lexer.tokens.params.ParamToken;
 import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawCondition;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawConditions;
-import me.tr.trformatter.strings.CString;
+import me.tr.trformatter.strings.Text;
 
 import java.util.List;
 
@@ -34,17 +34,17 @@ public class ConditionsLexer extends GenericLexer<IndexedRawConditions> {
     public ConditionToken tokenize(IndexedRawConditions rawConditions) {
         List<IndexedRawCondition> conditions = rawConditions.conditions();
 
-        CString firstComponent = new CString(rawConditions.component());
+        Text firstComponent = new Text(rawConditions.component());
         if (conditions.isEmpty()) return null;
 
         IndexedRawCondition firstRaw = conditions.getFirst();
-        ConditionToken head = createToken(new CString(firstRaw.component()), firstRaw);
+        ConditionToken head = createToken(new Text(firstRaw.component()), firstRaw);
         ConditionToken currentLeft = head;
 
         for (int i = 1; i < conditions.size(); i++) {
             IndexedRawCondition nextRaw = conditions.get(i);
 
-            CString nextComponent = new CString(nextRaw.component());
+            Text nextComponent = new Text(nextRaw.component());
             OperatorToken.Operator operator = getOperator(firstComponent, conditions.get(i - 1).end(), nextRaw.start());
             ConditionToken nextToken = createToken(nextComponent, nextRaw);
 
@@ -60,13 +60,13 @@ public class ConditionsLexer extends GenericLexer<IndexedRawConditions> {
         return head;
     }
 
-    private ConditionToken createToken(CString component, IndexedRawCondition raw) {
+    private ConditionToken createToken(Text component, IndexedRawCondition raw) {
         NameToken name = getName(component);
         List<ParamToken> params = getParams(raw);
         return new ConditionToken(name, params);
     }
 
-    private OperatorToken.Operator getOperator(CString component, int start, int end) {
+    private OperatorToken.Operator getOperator(Text component, int start, int end) {
         int and = component.indexOfIgnoringStrings(characters().getAndCondition(), start, end);
         int or = component.indexOfIgnoringStrings(characters().getOrCondition(), start, end);
 

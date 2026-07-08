@@ -4,7 +4,7 @@ import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawFunctions;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawParams;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawTag;
-import me.tr.trformatter.strings.CString;
+import me.tr.trformatter.strings.Text;
 
 import java.util.List;
 import java.util.Optional;
@@ -133,7 +133,7 @@ public class TagScanner extends GenericScanner {
 
     @Override
     public IndexedRawTag create(String text, int start, int end) {
-        CString cText = new CString(text);
+        Text cText = new Text(text);
         String separator = characters().getSeparateFunction();
         int sepIndex = cText.indexOfIgnoringStrings(separator);
 

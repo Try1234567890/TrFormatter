@@ -4,7 +4,7 @@ import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawConditions;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawPlaceholder;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawTag;
-import me.tr.trformatter.strings.CString;
+import me.tr.trformatter.strings.Text;
 
 import java.util.List;
 import java.util.Optional;
@@ -138,7 +138,7 @@ public class PlaceholderScanner extends GenericScanner {
 
     @Override
     public IndexedRawPlaceholder create(String text, int start, int end) {
-        CString cText = new CString(text.trim());
+        Text cText = new Text(text.trim());
         String split = characters().getSeparateConditions();
         int splitIndex = cText.indexOfIgnoringStrings(split);
 

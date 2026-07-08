@@ -3,8 +3,9 @@ package me.tr.trformatter.phases.analysis.scanner.defaults;
 import me.tr.trformatter.phases.analysis.scanner.Scanner;
 import me.tr.trformatter.phases.analysis.scanner.chars.CharacterSet;
 import me.tr.trformatter.phases.analysis.scanner.components.IndexedRawComponent;
-import me.tr.trformatter.strings.CString;
-import me.tr.trformatter.utility.Validator;
+import me.tr.trformatter.strings.Text;
+import me.tr.utilities.validators.Preconditions;
+import me.tr.utilities.validators.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +31,8 @@ public abstract class GenericScanner implements Scanner {
      * @throws NullPointerException if openDel or closeDel are null.
      */
     protected GenericScanner(String openDel, String closeDel, CharacterSet characters) {
-        Validator.isNull(openDel, "Open delimiter cannot be null");
-        Validator.isNull(closeDel, "Close delimiter cannot be null");
+        Preconditions.parameterNotNull(openDel, "open delimiter");
+        Preconditions.parameterNotNull(closeDel, "close delimiter");
         this.openDel = openDel;
         this.closeDel = closeDel;
         this.characters = characters == null ? CharacterSet.DEFAULT : characters;
@@ -85,12 +86,12 @@ public abstract class GenericScanner implements Scanner {
      */
     @Override
     public List<? extends IndexedRawComponent> scan(String text, int from, int end, int depth) {
-        if (Validator.isNull(text)) return new ArrayList<>();
+        if (ValidationUtils.isNull(text)) return new ArrayList<>();
 
         List<IndexedRawComponent> components = new ArrayList<>();
         int currentPos = Math.max(0, from);
         int limit = (end < 0) ? text.length() : end;
-        CString cText = new CString(text);
+        Text cText = new Text(text);
 
         while (currentPos < limit) {
             SearchResult result = this.findNextComponent(cText, currentPos);
@@ -109,11 +110,11 @@ public abstract class GenericScanner implements Scanner {
     /**
      * Internal method to find the next valid component starting from a specific position.
      *
-     * @param text  The source text wrapped in a {@link CString} for utility access.
+     * @param text  The source text wrapped in a {@link Text} for utility access.
      * @param start The index to start the search from.
      * @return A {@link SearchResult} containing found components and the next resume index.
      */
-    private SearchResult findNextComponent(CString text, int start) {
+    private SearchResult findNextComponent(Text text, int start) {
         int o = text.indexOfIgnoringStrings(openDel, start);
         if (o == -1) return new SearchResult(new ArrayList<>(), -1);
 
@@ -137,7 +138,7 @@ public abstract class GenericScanner implements Scanner {
      * @param start The index right after the first detected opening delimiter.
      * @return The absolute index of the closing delimiter, or -1 if no matching closure is found.
      */
-    private int findCloseIndex(CString text, int start) {
+    private int findCloseIndex(Text text, int start) {
         int openAmt = 0;
         char quoteChar = 0;
 
