@@ -1,35 +1,18 @@
-plugins {
-    id 'java-library'
-    id 'maven-publish'
-    id 'com.gradleup.shadow' version '9.3.1'
-}
-
-
-publishing {
-    publications {
-        mavenLocal(MavenPublication) {
-            from(components["shadow"])
-
-            groupId = 'me.tr.trformatter'
-            artifactId = 'formatter'
-            version = '3.2.6'
-        }
-    }
-}
-
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
+version = '1.0.0'
 
 dependencies {
-    implementation("me.tr.utilities:utilities:1.0.0")
+    implementation('com.github.try:utilities:1.0.1')
+	implementation('com.github.try.jsf:color:1.0.3')
+
+	testImplementation(platform('org.junit:junit-bom:6.1.1'))
+	testImplementation('org.junit.jupiter:junit-jupiter')
+	testRuntimeOnly('org.junit.platform:junit-platform-launcher')
 }
 
-java {
-    withSourcesJar()
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(25)
-        vendor = JvmVendorSpec.JETBRAINS
-    }
+test {
+	useJUnitPlatform()
+	testLogging {
+		events "passed", "skipped", "failed"
+	}
+    failOnNoDiscoveredTests = false
 }

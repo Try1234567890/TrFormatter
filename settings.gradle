@@ -1,3 +1,3 @@
-rootProject.name = 'SSF'
+rootProject.name = 'JSF'
 
-include('core', 'jmh', 'color')
+include('core', 'color')

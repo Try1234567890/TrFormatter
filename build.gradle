@@ -1,0 +1,47 @@
+subprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+
+    var github_name = System.getenv('GITHUB_USERNAME')
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = 'Java-Libraries'
+            url = uri('https://maven.pkg.github.com/' + github_name + '/Java-Libraries')
+            credentials {
+                username = github_name
+                password = System.getenv('GITHUB_TOKEN')
+            }
+        }
+    }
+
+    java {
+        withSourcesJar()
+        withJavadocJar()
+    }
+
+    afterEvaluate {
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    from(components["java"])
+
+                    groupId = 'com.github.try.jsf'
+                    artifactId = project.name
+                    version = project.version
+                }
+            }
+            repositories {
+                maven {
+                    name = 'Java-Libraries'
+                    url = uri('https://maven.pkg.github.com/' + github_name + '/Java-Libraries')
+                    credentials {
+                        username = github_name
+                        password = System.getenv('GITHUB_TOKEN')
+                    }
+                }
+            }
+        }
+    }
+}
