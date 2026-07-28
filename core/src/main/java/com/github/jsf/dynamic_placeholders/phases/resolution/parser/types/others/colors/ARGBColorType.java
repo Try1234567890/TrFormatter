@@ -58,12 +58,4 @@ public class ARGBColorType extends ColorType {
                 .orElse(ARGB_DELIMITER_DEFAULT_VALUE);
     }
 
-    @Override
-    public <O_T> Optional<O_T> as(Color value, Class<? extends O_T> type) {
-        if (String.class.isAssignableFrom(type)) {
-            String string = value.toHex();
-            return Optional.of((O_T) string);
-        }
-        return Optional.empty();
-    }
 }

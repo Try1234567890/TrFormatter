@@ -10,7 +10,7 @@ public class BooleanType extends ParameterType<Boolean> {
     protected Optional<Boolean> _is(Text str, DPDelimiterSet set) {
         if (str.equalsIgnoreCase("true")
                 || str.equalsIgnoreCase("false")) {
-            boolean bool = str.asBoolean();
+            boolean bool = str.asBooleanUnchecked();
             return Optional.of(bool);
         }
         return Optional.empty();
