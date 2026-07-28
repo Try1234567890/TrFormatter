@@ -1,4 +1,4 @@
-package com.github.jsf.scanners.components;
+package com.github.jsf.scanners.beans;
 
 import com.github.jsf.text.Text;
 import com.github.utilities.validators.Preconditions;
@@ -11,8 +11,7 @@ import com.github.utilities.validators.Preconditions;
  */
 public class IndexedComponent {
     private final Text component;
-    private final int start;
-    private final int end;
+    private final Range range;
 
     /**
      * Create a new indexed component.
@@ -29,8 +28,7 @@ public class IndexedComponent {
         Preconditions.check(start <= end, "The start index must be less than or equal to the end index");
 
         this.component = component;
-        this.start = start;
-        this.end = end;
+        this.range = new Range(start, end);
     }
 
     /**
@@ -42,13 +40,17 @@ public class IndexedComponent {
         return component;
     }
 
+    public Range range() {
+        return range;
+    }
+
     /**
      * Retrieve the start index of the component text inside the text.
      *
      * @return the start index of the component text inside the text.
      */
     public int start() {
-        return start;
+        return range.start();
     }
 
     /**
@@ -57,11 +59,11 @@ public class IndexedComponent {
      * @return the end index of the component text inside the text.
      */
     public int end() {
-        return end;
+        return range.end();
     }
 
     @Override
     public String toString() {
-        return "IndexedComponent{Component: '" + component + "', Start: " + start + ", End: " + end + '}';
+        return "IndexedComponent{Component: '" + component + "', Start: " + start() + ", End: " + end() + '}';
     }
 }

@@ -25,15 +25,6 @@ public class HexColorType extends ColorType {
         return Optional.empty();
     }
 
-    @Override
-    public <O_T> Optional<O_T> as(Color value, Class<? extends O_T> type) {
-        if (String.class.isAssignableFrom(type)) {
-            String string = value.toHex();
-            return Optional.of((O_T) string);
-        }
-        return Optional.empty();
-    }
-
     private StringDelimiter getDelimiter(DPDelimiterSet set) {
         return set.retrieve(HEX_DELIMITER_IDENTIFIER)
                 .filter(del -> del instanceof StringDelimiter)

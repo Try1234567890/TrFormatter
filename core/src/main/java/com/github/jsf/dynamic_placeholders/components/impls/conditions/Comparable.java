@@ -1,4 +1,4 @@
-package com.github.jsf.dynamic_placeholders.components.impls.conditions.compare;
+package com.github.jsf.dynamic_placeholders.components.impls.conditions;
 
 import com.github.jsf.dynamic_placeholders.components.Parameter;
 import com.github.jsf.dynamic_placeholders.names.UName;

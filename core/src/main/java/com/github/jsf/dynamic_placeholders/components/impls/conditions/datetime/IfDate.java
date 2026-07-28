@@ -1,24 +1,22 @@
 package com.github.jsf.dynamic_placeholders.components.impls.conditions.datetime;
 
-import com.github.jsf.dynamic_placeholders.components.Condition;
-import com.github.jsf.dynamic_placeholders.components.Parameter;
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.compare.Comparable;
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.compare.Comparator;
+import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
+import com.github.jsf.dynamic_placeholders.components.impls.conditions.Comparator;
+import com.github.jsf.dynamic_placeholders.components.impls.conditions.Condition;
 import com.github.jsf.dynamic_placeholders.names.UName;
 import com.github.jsf.scanners.IllegalComponentException;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.List;
 
-public class IfDate extends Condition implements Comparable {
+public class IfDate extends Condition {
     public static final UName ID = new UName("if_date");
     public static final UName DATE = new UName("date", "d");
     public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    public IfDate(List<Parameter<?>> parameters) {
-        super(ID, parameters);
+    public IfDate(ComponentsInfo infos) {
+        super(ID, infos);
     }
 
     @Override

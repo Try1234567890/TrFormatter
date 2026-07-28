@@ -2,22 +2,20 @@ package com.github.jsf.dynamic_placeholders.phases.resolution.lexer;
 
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Token;
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.TokenType;
+import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Tokens;
 import com.github.jsf.dynamic_placeholders.phases.resolution.scanner.beans.DPDelimiterSet;
 import com.github.jsf.scanners.IllegalComponentException;
-import com.github.jsf.scanners.components.IndexedComponent;
+import com.github.jsf.scanners.beans.IndexedComponent;
 import com.github.jsf.scanners.delimiters.Delimiter;
 import com.github.jsf.text.Text;
 import com.github.utilities.validators.Preconditions;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public abstract class Lexer {
     private final IndexedComponent component;
     private final Text text;
     private final DPDelimiterSet set;
     private final Delimiter delimiter;
-    private final List<Token> tokens = new ArrayList<>();
+    private final Tokens tokens;
     private int cursor;
 
     public Lexer(IndexedComponent component,
@@ -27,6 +25,7 @@ public abstract class Lexer {
         this.text = component.getComponent();
         this.delimiter = Preconditions.parameterNotNull(delimiter, "delimiter");
         this.set = Preconditions.parameterNotNull(set, "set");
+        this.tokens = new Tokens(component.range());
     }
 
     public IndexedComponent component() {
@@ -45,7 +44,7 @@ public abstract class Lexer {
         return delimiter;
     }
 
-    public List<Token> tokens() {
+    public Tokens tokens() {
         return tokens;
     }
 
@@ -61,11 +60,11 @@ public abstract class Lexer {
         cursor += i;
     }
 
-    public abstract List<Token> tokenize();
+    public abstract Tokens tokenize();
 
     protected void consumeExpected(String expected, TokenType type) {
         if (match(expected)) {
-            tokens.add(new Token(type, expected));
+            tokens.newToken(new Token(type, expected));
             cursor += expected.length();
         } else {
             throw new IllegalComponentException("Syntax Error: '" + expected + "' expected at index " + cursor + ". Found: " +

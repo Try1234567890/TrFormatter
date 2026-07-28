@@ -1,6 +1,6 @@
 package com.github.jsf.scanners;
 
-import com.github.jsf.scanners.components.IndexedComponent;
+import com.github.jsf.scanners.beans.IndexedComponent;
 import com.github.jsf.text.Text;
 import com.github.utilities.validators.Preconditions;
 

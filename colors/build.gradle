@@ -1,17 +1,9 @@
-version = '1.0.3'
+version = '1.0.4'
 
 dependencies {
-    implementation('com.github.try:utilities:1.0.1')
+    implementation('com.github.try:utilities:1.0.4')
 
 	testImplementation(platform('org.junit:junit-bom:6.1.1'))
 	testImplementation('org.junit.jupiter:junit-jupiter')
 	testRuntimeOnly('org.junit.platform:junit-platform-launcher')
-}
-
-test {
-	useJUnitPlatform()
-	testLogging {
-		events "passed", "skipped", "failed"
-	}
-    failOnNoDiscoveredTests = false
 }

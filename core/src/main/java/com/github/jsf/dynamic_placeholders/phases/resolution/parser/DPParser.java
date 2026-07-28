@@ -1,39 +1,41 @@
 package com.github.jsf.dynamic_placeholders.phases.resolution.parser;
 
-import com.github.jsf.dynamic_placeholders.components.Action;
-import com.github.jsf.dynamic_placeholders.components.Condition;
+import com.github.jsf.dynamic_placeholders.components.impls.actions.Action;
+import com.github.jsf.dynamic_placeholders.components.impls.conditions.Condition;
 import com.github.jsf.dynamic_placeholders.components.DynamicPlaceholder;
-import com.github.jsf.dynamic_placeholders.components.Function;
+import com.github.jsf.dynamic_placeholders.components.impls.functions.Function;
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Token;
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.TokenType;
+import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Tokens;
 import com.github.jsf.dynamic_placeholders.phases.resolution.scanner.beans.DPDelimiterSet;
 import com.github.jsf.scanners.IllegalComponentException;
+import com.github.jsf.scanners.beans.Range;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DPParser extends Parser<DynamicPlaceholder> {
 
-    public DPParser(List<Token> tokens, DPDelimiterSet delimiters) {
+    public DPParser(Tokens tokens, DPDelimiterSet delimiters) {
         super(tokens, delimiters);
     }
 
     @Override
     public DynamicPlaceholder parse() {
-        DynPLBuilder builder = new DynPLBuilder();
+        DynPLBuilder builder = new DynPLBuilder().withRange(tokens().range());
 
         while (hasNext()) {
             Token token = nextToken();
             if (token.type() == TokenType.CLOSE_PLACEHOLDER) break;
 
             if (token.type() == TokenType.OPEN_ACTION) {
-                List<Token> tokens = getUntil(TokenType.CLOSE_ACTION);
+                Tokens tokens = getUntil(TokenType.CLOSE_ACTION);
                 builder.withAction(new DPActionParser(tokens, delimiters()).parse());
             } else if (token.type() == TokenType.OPEN_CONDITION) {
-                List<Token> tokens = getUntil(TokenType.CLOSE_CONDITION);
+                Tokens tokens = getUntil(TokenType.CLOSE_CONDITION);
                 builder.newCondition(new DPConditionParser(tokens, delimiters()).parse());
             } else if (token.type() == TokenType.OPEN_FUNCTION) {
-                List<Token> tokens = getUntil(TokenType.CLOSE_FUNCTION);
+                Tokens tokens = getUntil(TokenType.CLOSE_FUNCTION);
                 builder.newFunction(new DPFunctionParser(tokens, delimiters()).parse());
             }
         }
@@ -41,7 +43,8 @@ public class DPParser extends Parser<DynamicPlaceholder> {
         return builder.build();
     }
 
-    private List<Token> getUntil(TokenType type) {
+    private Tokens getUntil(TokenType type) {
+        int start = index();
         List<Token> tokens = new ArrayList<>();
 
         tokens.add(prevToken()); // Should not be possible that doesn't have a previous token
@@ -59,16 +62,21 @@ public class DPParser extends Parser<DynamicPlaceholder> {
         }
 
         tokens.add(curr);
-        return tokens;
+        return new Tokens(tokens, new Range(start, index()));
     }
 
     private static class DynPLBuilder {
         private Action action;
+        private Range range;
         private final List<Condition> conditions = new ArrayList<>();
         private final List<Function> functions = new ArrayList<>();
 
-
         private DynPLBuilder() {
+        }
+
+        private DynPLBuilder withRange(Range range) {
+            this.range = range;
+            return this;
         }
 
         private void withAction(Action action) {
@@ -86,7 +94,9 @@ public class DPParser extends Parser<DynamicPlaceholder> {
 
         private DynamicPlaceholder build() {
             if (this.action == null) throw new IllegalComponentException("Cannot have no action");
-            return new DynamicPlaceholder(this.action, this.conditions, this.functions);
+            if (this.range == null) throw new IllegalComponentException("Cannot have no range");
+
+            return new DynamicPlaceholder(this.action, this.conditions, this.functions, this.range);
         }
     }
 }

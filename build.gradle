@@ -1,8 +1,14 @@
+plugins {
+    id "com.gradleup.shadow" version "9.3.1"
+}
+
 subprojects {
     apply plugin: 'java-library'
     apply plugin: 'maven-publish'
+    apply plugin: 'com.gradleup.shadow'
 
     var github_name = System.getenv('GITHUB_USERNAME')
+    var github_token = System.getenv('GITHUB_TOKEN')
 
     repositories {
         mavenCentral()
@@ -11,34 +17,50 @@ subprojects {
             url = uri('https://maven.pkg.github.com/' + github_name + '/Java-Libraries')
             credentials {
                 username = github_name
-                password = System.getenv('GITHUB_TOKEN')
+                password = github_token
             }
         }
     }
+
 
     java {
         withSourcesJar()
         withJavadocJar()
     }
 
+    test {
+        useJUnitPlatform()
+        failOnNoDiscoveredTests = false
+    }
+
+    shadowJar {
+        archiveBaseName = project.name
+        archiveClassifier = ''
+    }
+
+    jar {
+        enabled = false
+    }
+
     afterEvaluate {
         publishing {
             publications {
                 mavenJava(MavenPublication) {
-                    from(components["java"])
+                    from(components["shadow"])
 
                     groupId = 'com.github.try.jsf'
                     artifactId = project.name
                     version = project.version
                 }
             }
+
             repositories {
                 maven {
                     name = 'Java-Libraries'
                     url = uri('https://maven.pkg.github.com/' + github_name + '/Java-Libraries')
                     credentials {
                         username = github_name
-                        password = System.getenv('GITHUB_TOKEN')
+                        password = github_token
                     }
                 }
             }

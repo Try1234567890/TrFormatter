@@ -3,7 +3,7 @@ package com.github.jsf.scanners.impls;
 import com.github.jsf.scanners.IllegalComponentException;
 import com.github.jsf.scanners.Scanner;
 import com.github.jsf.scanners.ScannerOptions;
-import com.github.jsf.scanners.components.IndexedComponent;
+import com.github.jsf.scanners.beans.IndexedComponent;
 import com.github.jsf.scanners.delimiters.Delimiter;
 import com.github.jsf.text.Text;
 import com.github.utilities.validators.Preconditions;

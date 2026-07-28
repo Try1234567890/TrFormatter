@@ -1,6 +1,6 @@
 package com.github.jsf.dynamic_placeholders.phases.resolution.scanner.beans;
 
-import com.github.jsf.scanners.components.IndexedComponent;
+import com.github.jsf.scanners.beans.IndexedComponent;
 import com.github.jsf.text.Text;
 
 import java.util.List;

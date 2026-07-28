@@ -2,17 +2,16 @@ package com.github.jsf.dynamic_placeholders.phases.resolution.lexer;
 
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Token;
 import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.TokenType;
+import com.github.jsf.dynamic_placeholders.phases.resolution.lexer.tokens.Tokens;
 import com.github.jsf.dynamic_placeholders.phases.resolution.scanner.beans.DPDelimiterSet;
 import com.github.jsf.scanners.IllegalComponentException;
-import com.github.jsf.scanners.components.IndexedComponent;
+import com.github.jsf.scanners.beans.IndexedComponent;
 import com.github.jsf.scanners.delimiters.Delimiter;
-import com.github.jsf.scanners.delimiters.IdentifierDelimiter;
 import com.github.jsf.scanners.delimiters.StringDelimiter;
 import com.github.jsf.text.Text;
 import com.github.utilities.validators.Preconditions;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class DPComponentLexer extends Lexer {
@@ -61,14 +60,14 @@ public class DPComponentLexer extends Lexer {
         return assigner;
     }
 
-    public List<Token> tokenize() {
+    public Tokens tokenize() {
         consumeExpected(delimiter.open(), open);
         String identifier = readUntilAny(parametersDelimiter.open(), delimiter.close());
         if (identifier.isEmpty()) {
             throw new IllegalComponentException("Syntax Error: The component at index " + cursor() + " " +
                     " doesn't have an identifier. Found: '" + text().truncate(Math.max(0, cursor() - 5), Math.min(cursor() + 5, text().length()), "...").quoteWithSingle());
         }
-        tokens().add(new Token(TokenType.IDENTIFIER, identifier));
+        tokens().newToken(new Token(TokenType.IDENTIFIER, identifier));
 
         Map<String, String> parameters = new HashMap<>();
         if (match(this.parametersDelimiter.open())) {
@@ -90,12 +89,12 @@ public class DPComponentLexer extends Lexer {
                 && cursor() < text().length()) {
 
             String paramName = readUntil(assigner).trim();
-            tokens().add(new Token(TokenType.IDENTIFIER, paramName));
+            tokens().newToken(new Token(TokenType.IDENTIFIER, paramName));
 
             consumeExpected(assigner, TokenType.ASSIGN_PARAM);
 
             String paramValue = readParameterValue();
-            tokens().add(new Token(TokenType.PARAM_VALUE, paramValue));
+            tokens().newToken(new Token(TokenType.PARAM_VALUE, paramValue));
             parameters.put(paramName, paramValue);
 
             if (match(splitter)) {
