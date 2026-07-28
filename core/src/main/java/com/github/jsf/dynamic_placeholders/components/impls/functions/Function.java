@@ -1,14 +1,14 @@
-package com.github.jsf.dynamic_placeholders.components;
+package com.github.jsf.dynamic_placeholders.components.impls.functions;
 
+import com.github.jsf.dynamic_placeholders.components.Component;
+import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
 import com.github.jsf.dynamic_placeholders.names.UName;
-
-import java.util.List;
 
 public abstract class Function extends Component<String> {
     private String actionResult;
 
-    protected Function(UName identifier, List<Parameter<?>> parameters) {
-        super(identifier, parameters);
+    protected Function(UName identifier, ComponentsInfo infos) {
+        super(identifier, infos);
     }
 
     public Function withActionResult(String actionResult) {

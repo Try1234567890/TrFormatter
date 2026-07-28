@@ -1,6 +1,7 @@
 package com.github.jsf.dynamic_placeholders.components;
 
 import com.github.jsf.dynamic_placeholders.names.UName;
+import com.github.jsf.scanners.beans.Range;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,10 +9,12 @@ import java.util.Optional;
 public abstract class Component<R> {
     private final UName name;
     private final List<Parameter<?>> parameters;
+    private final Range range;
 
-    protected Component(UName name, List<Parameter<?>> parameters) {
+    protected Component(UName name, ComponentsInfo infos) {
         this.name = name;
-        this.parameters = parameters;
+        this.parameters = infos.parameters();
+        this.range = infos.range();
     }
 
     public UName name() {
@@ -20,6 +23,18 @@ public abstract class Component<R> {
 
     public List<Parameter<?>> parameters() {
         return parameters;
+    }
+
+    public Range range() {
+        return range;
+    }
+
+    public int start() {
+        return range.start();
+    }
+
+    public int end() {
+        return range.end();
     }
 
     public Optional<Parameter<?>> getParameter(UName name) {
