@@ -1,18 +1,15 @@
 package com.github.jsf.dynamic_placeholders.components.impls.functions;
 
-import com.github.jsf.dynamic_placeholders.components.Function;
-import com.github.jsf.dynamic_placeholders.components.Parameter;
+import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
 import com.github.jsf.dynamic_placeholders.names.UName;
-
-import java.util.List;
 
 public class Truncate extends Function {
     public static final UName ID = new UName("truncate");
-    public static final UName START = new UName("start");
-    public static final UName END = new UName("end");
+    public static final UName START = new UName("start", "s");
+    public static final UName END = new UName("end", "e");
 
-    public Truncate(List<Parameter<?>> parameters) {
-        super(ID, parameters);
+    public Truncate(ComponentsInfo infos) {
+        super(ID, infos);
     }
 
     @Override
