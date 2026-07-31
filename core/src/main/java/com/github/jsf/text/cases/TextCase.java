@@ -1,7 +1,7 @@
 package com.github.jsf.text.cases;
 
+import com.github.utilities.validators.Preconditions;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +9,12 @@ import java.util.function.Predicate;
 
 public interface TextCase {
 
-    public static TextCase of(String text) {
+    static boolean areEquals(TextCase one, TextCase two) {
+        return Preconditions.simpleParameterNotNull(one, "one").getClass()
+                .equals(Preconditions.simpleParameterNotNull(two, "two").getClass());
+    }
+
+    static TextCase of(String text) {
         for (Map.Entry<Predicate<String>, TextCase> textCase : TextCases.getInstance().entries()) {
             Predicate<String> predicate = textCase.getKey();
             if (predicate.test(text))
