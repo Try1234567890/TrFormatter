@@ -1,8 +1,6 @@
-package com.github.jsf.dynamic_placeholders.components.impls.conditions.datetime;
+package com.github.jsf.dynamic_placeholders.components.impls.conditions;
 
 import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.Comparator;
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.Condition;
 import com.github.jsf.dynamic_placeholders.names.UName;
 import com.github.jsf.scanners.IllegalComponentException;
 

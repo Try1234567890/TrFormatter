@@ -5,10 +5,10 @@ import com.github.jsf.dynamic_placeholders.components.impls.actions.Action;
 import com.github.jsf.dynamic_placeholders.components.impls.actions.Console;
 import com.github.jsf.dynamic_placeholders.components.impls.actions.RandomNumber;
 import com.github.jsf.dynamic_placeholders.components.impls.actions.ReadFile;
-import com.github.jsf.dynamic_placeholders.components.impls.actions.datetime.NowDate;
-import com.github.jsf.dynamic_placeholders.components.impls.actions.datetime.NowTime;
-import com.github.jsf.dynamic_placeholders.components.impls.actions.envs.Env;
-import com.github.jsf.dynamic_placeholders.components.impls.actions.envs.Property;
+import com.github.jsf.dynamic_placeholders.components.impls.actions.NowDate;
+import com.github.jsf.dynamic_placeholders.components.impls.actions.NowTime;
+import com.github.jsf.dynamic_placeholders.components.impls.actions.Env;
+import com.github.jsf.dynamic_placeholders.components.impls.actions.Property;
 import com.github.jsf.dynamic_placeholders.names.UName;
 import com.github.utilities.validators.Preconditions;
 

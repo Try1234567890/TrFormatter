@@ -2,7 +2,7 @@ package com.github.jsf.dynamic_placeholders.registries;
 
 import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
 import com.github.jsf.dynamic_placeholders.components.impls.conditions.Condition;
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.datetime.IfDate;
+import com.github.jsf.dynamic_placeholders.components.impls.conditions.IfDate;
 import com.github.jsf.dynamic_placeholders.names.UName;
 import com.github.utilities.validators.Preconditions;
 

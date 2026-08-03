@@ -1,6 +1,5 @@
 package com.github.jsf.dynamic_placeholders.components.impls.conditions;
 
-import com.github.jsf.dynamic_placeholders.components.impls.conditions.datetime.IfDate;
 import com.github.jsf.text.searches.Search;
 
 import java.util.Optional;

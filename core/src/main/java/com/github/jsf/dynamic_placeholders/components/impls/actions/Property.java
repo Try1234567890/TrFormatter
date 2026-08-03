@@ -1,7 +1,6 @@
-package com.github.jsf.dynamic_placeholders.components.impls.actions.envs;
+package com.github.jsf.dynamic_placeholders.components.impls.actions;
 
 import com.github.jsf.dynamic_placeholders.components.ComponentsInfo;
-import com.github.jsf.dynamic_placeholders.components.impls.actions.Action;
 import com.github.jsf.dynamic_placeholders.names.UName;
 
 public class Property extends Action {
